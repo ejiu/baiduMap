@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style type="text/css">
+	    html{height:100%}  
+        body{height:100%;margin:0px;padding:0px;background: rgb(247, 222, 190);}  
+        #registerRect{    
+			width: 70%;
+			position:absolute;
+			top:30%;
+			left:50%;
+			transform:translate(-50%,-30%);
+			font-size: 4vw;
+            font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+            line-height:1.5;
+			font-weight:bold;
+			margin: 4px 4px;
+		}
+
+		#registerRect input{
+			width: 100%;
+			background:#9bc8ce;
+			color:#ffffff;
+			padding: 4px 8px 4px 8px;
+		}
+
+		#registerRect button{
+			/* background:#79a1d6; */
+			/* color:#ffffff; */
+			padding: 4px 8px 4px 8px;
+		}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/search.css">
+    <title>注册管理</title>
+</head>
+<body>
+    <div id="title">注册管理</div>
+    <div class="Buttons">
+        <box4>
+            <a id="cancelBtn" onclick="onCancel()">返回首页</a>
+        </box4>
+    </div>
+    <div id="registerRect">
+        操作说明:<br/>
+        1. 请输入用户码;<br/>
+        2. 请点击[生成注册码];<br/>
+        3. 请点击[复制], 获得注册码;<br/>
+        4. 请将用户码发送给用户;
+        <br/><br/>
+        <div>输入用户码 :</div>
+        <input type="text" id ="userCode" value="" ><br/>
+        <button onclick="onCreateReg()" type="button">生成注册码</button>
+        <br/><br/>
+        <div>注册码 :</div>
+        <input type="text" id ="registerCode" value="" readonly="true"><br/>
+        <button onclick="onCopy()" type="button">复制</button>
+    </div>
+    <script type="text/javascript" src="../src/Base64.js"></script>
+    <script>
+
+        function onCancel(){
+            window.location.href = "../index.html";
+        };
+
+        function onCopy() {
+			var input = document.getElementById("registerCode");
+            input.select();
+            input.setSelectionRange(0, input.value.length);
+			if(document.execCommand('Copy',"false", null)){
+				alert("已复制");
+			}else{
+				alert("复制失败,请长按复制");
+			}
+        }
+
+        function onCreateReg(){
+            var userInput = document.getElementById("userCode");
+            var regInput = document.getElementById("registerCode");
+            var coder = new Base64();
+            var str = coder.decodeAlterAdmin(userInput.value)
+            console.log(str);
+            if(str){
+                regInput.value = coder.encodeAlterAdmin(str);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+	    html{height:100%}  
+		body{height:100%;margin:0px;padding:0px; background: rgb(247, 222, 190)}  
+	</style>
+	<link rel="stylesheet" type="text/css" href="./css/indexClient.css">
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ghpQpASyMqbSNbWIAPM1tr0b2wXvgrcg"></script>
+	<title>Map</title>
+</head>
+<body>
+	<img id ="compass" src="./res/compass.png" alt="compass" >
+	<div id="container"></div>
+	<div id= "registerRect">
+		试用已过期!<br/>
+		注册流程:<br/>
+        1. 请点击[生成并复制]按钮;<br/>
+        2. 请自行发送用户码给服务商;<br/>
+        3. 请输入提供的注册码,点击[注册].
+		<br/><br/>
+		<div>用户码 :</div>
+		<input type="text" id ="userCode" value="用户码未生成" readonly="true"><br/>
+		<button onclick="onCopy()" type="button">生成并复制</button>
+		<br/><br/>
+		<div>请输入提供的注册码 :</div>
+		<input type="text" id ="registerCode" value=""><br/>
+		<button onclick="onRegister()" type="button">注册</button>
+	</div>
+	<div id="customConfirm">
+		<label for="">请确认是否设定位置?</label>
+		<div id="btnBegin" onclick="openBeginPrompt()">设定原点</div>
+		<div id="btnExit" onclick="closeLongclickDiv()">退出</div>
+		<div id="btnEnd" onclick="openEndPrompt()">设定终点</div>
+	</div>
+	<div class="rect"></div>
+	<div class="father">
+		<div class="child" onclick="onSearchClick()">搜索</div>
+		<div class="child" onclick="onCenterClick()">原点</div>
+		<div class="child" onclick="onSiteClick()">终点</div>
+		<div class="child" onclick="onLocate()">定位</div>
+		<div class="child2" onclick="onAbountClick()">关于</div>
+		<div class="child2" onclick="onManagerClick()">管理</div>
+	</div>
+	<script type="text/javascript" src="./src/Base64.js"></script>
+	<script type="text/javascript" src="./src/localStorage.js"></script>
+	<script type="text/javascript" src="./src/DIYOverlay.js"></script>
+	<script type="text/javascript" src="./src/BMapOveride.js"></script>
+	<script type="text/javascript" src="./src/utility.js"></script>
+	<script type="text/javascript" src="./src/getGPS.js"></script>
+	<script type="text/javascript" src="./src/overlay.js"></script>
+	<script type="text/javascript" src="./src/map.js"></script>
+	<script type="text/javascript">
+	
+		var imeiAuthority = false;
+		
+		//判断是否过期, timeLimit到期返回false, 未到期返回true
+		if(timeLimit()){
+			//试用期内, 不进行注册判断
+			imeiAuthority = true;
+		}else{
+			//试用期外, 判断注册
+			//判断是否注册; imeiLimit未注册返回false, 已注册返回true;
+			if(imeiLimit()){
+				//已注册
+				imeiAuthority = true;
+			}
+			else{
+				//未注册
+				imeiAuthority = false;
+				//进入注册页面;
+				showRegister();
+			}
+		}
+
+		if(imeiAuthority){
+			showCompass();
+			//main
+			//---数据---
+			var point = getDefaultGPS();
+			var beginPoint = point[0];
+			var endSite = point[1];
+			var needGetGpsByGeo = true;
+			
+			if(beginPoint){
+				needGetGpsByGeo = false;
+			}else{
+				beginPoint = createDefaultBeginPoint();
+			}
+			//---显示---
+			//初始化地图, 若已通过LS到起点坐标,则不调用Baidu Geolocation
+			var map = initMap(beginPoint, endSite, needGetGpsByGeo);
+			//地图绑定"长按"事件
+			map.addEventListener("longclick", setNewSite);
+
+			function setNewSite(e){
+				document.getElementById("btnBegin").value = e.point.lng + "-" + e.point.lat;
+				document.getElementById("btnEnd").value = e.point.lng + "-" + e.point.lat;
+				openLongclickDiv();
+			}
+
+			//初始化覆盖物(罗盘, 线段)
+			updateOverlay(map, beginPoint, endSite);
+			//---注册---
+		}
+
+		function onSearchClick(){
+			window.location.href = "./html/search.html";
+		}
+
+		function onCenterClick(){
+			window.location.href = "./html/center.html";
+		}
+
+		function onSiteClick(){
+			window.location.href = "./html/site.html";
+		}
+
+		function onAbountClick(){
+			window.location.href = "./html/about.html";
+		}
+
+		function onManagerClick(){
+			window.location.href = "./html/manager.html";
+		}
+
+		function onLocate(){
+			var info = window.AndroidObj.getGPSinfo();
+			if(!getCenterByGps3(info)){
+				alert("定位失败");
+			}
+		}
+
+		function onCopy() {
+			var input = document.getElementById("userCode");
+			var imei = window.AndroidObj.getIMEI();
+			var coder = new Base64();
+			input.value = coder.encodeAlter(imei);
+            input.select();
+            input.setSelectionRange(0, input.value.length);
+			if(document.execCommand('Copy',"false", null)){
+				alert("已复制");
+			}else{
+				alert("复制失败,请长按复制");
+			}
+		}
+
+		function showRegister(){
+			var reg = document.getElementById("registerRect");
+			if(reg){
+				reg.style.display = "block";
+			}
+
+			//获得IMEI码并编码
+			var input = document.getElementById("userCode");
+			var imei = window.AndroidObj.getIMEI();
+			var coder = new Base64();
+			input.value = coder.encodeAlter(imei);
+		}
+
+		function onRegister(){
+			var regInput = document.getElementById("registerCode");
+			if(registerWithImei(regInput.value)){
+				alert("注册成功!");
+				window.location.reload();
+			}else{
+				alert("注册失败!请确认注册码.");
+			}
+		}
+
+		function showCompass(){
+			var compass = document.getElementById("compass");
+			if(compass){
+				compass.style.display = "block";
+			}
+		}
+
+		function openLongclickDiv(){
+			document.getElementById("customConfirm").style.display="block";
+		}
+
+		function closeLongclickDiv(){
+			document.getElementById("customConfirm").style.display="none";
+		}
+
+		function openBeginPrompt(){			
+			var data = document.getElementById("btnBegin").value;
+			var dataStr = data.split("-");
+			var name = prompt("请输入自定义名称", "默认原点");
+			if(name){
+				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				if(addCenterData(point)){
+					window.location.reload();
+				}
+			}
+		}
+
+		function openEndPrompt(e){
+			var data = document.getElementById("btnEnd").value;
+			var dataStr = data.split("-");
+			var name = prompt("请输入自定义名称", "默认终点");
+			if(name){
+				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				if(addSiteData(point)){
+					window.location.reload();
+				}
+			}
+		}
+	</script>
+</body>
+</html>

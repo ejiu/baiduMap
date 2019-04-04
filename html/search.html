@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html{height:100%}  
+        body{height:100%;margin:0px;padding:0px;background: aliceblue}  
+        #searchMapContainer{display: none}  
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/search.css">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=GfXpYTNcsBIlT3yq6HmelAtzAs8doW1O"></script>
+    <title>位置查询</title>
+</head>
+<body>
+    <div id="title">位置查询</div>
+    <div id="inputContainer">
+        <input id="suggestId" type="text" class="searchText" placeholder="搜索地点">
+        <div class="searchBtn" onclick="onSearch()"></div>
+    </div>
+    <div class="Buttons">
+        <box3>
+            <a onclick="onCancel()">返回首页</a>
+        </box3>
+        <box3>
+            <a onclick="onAddCenter()">添加原点</a>
+        </box3>
+        <box3>
+            <a onclick="onAddSite()">添加终点</a>
+        </box3>
+    </div>
+    <div id="r-result"></div>
+    <div id="searchMapContainer"></div>
+    <script type="text/javascript" src="../src/localStorage.js"></script>
+    <script type="text/javascript" src="../src/utility.js"></script>
+    <script type="text/javascript" src="../src/searchKeyWord.js"></script>
+    <script>
+        initSearchPage();
+
+        function onCancel(){
+            window.location.href = "../index.html";
+        };
+        
+        function onAddCenter(){
+            if(setCenterPoint()){
+                window.location.href = "../index.html";
+            }
+        };
+
+        function onAddSite(){
+            if(setSitePoint()){
+                window.location.href = "../index.html";
+            }
+        };
+
+        function onSearch(){
+            searchPlace();
+        }
+    </script>
+</body>
+</html>

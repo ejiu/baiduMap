@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        html{height:100%}  
+        body{height:100%;margin:0px;padding:0px;background: aliceblue}
+    </style>
+    <link rel="stylesheet" type="text/css" href="../css/centerSite.css">
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ghpQpASyMqbSNbWIAPM1tr0b2wXvgrcg"></script>
+    <title>管理终点</title>
+</head>
+<body>
+    <div id="title">管理终点</div>
+    <div class="Buttons">
+        <box4>
+            <a id="cancelBtn" onclick="onCancel()">返回首页</a>
+        </box4>
+        <box4>
+            <a onclick="onDelete()">删除选中</a>
+        </box4>
+        <box4>
+            <a onclick="onUnchoosed()">取消选中</a>
+        </box4>
+        <box4>
+            <a onclick="onRename()">更改名称</a>
+        </box4>
+    </div>
+    <div id="r-result">        
+    </div>
+    <script type="text/javascript" src="../src/localStorage.js"></script>
+    <script type="text/javascript" src="../src/utility.js"></script>
+    <script type="text/javascript" src="../src/site.js"></script>
+    <script>
+        initSiteList();
+
+        function onCancel(){
+            window.location.href = "../index.html";
+        };
+
+        function onRename(){
+            reName();
+            window.location.reload();
+        };
+
+        // function onDeleteAll() {
+        //     deleteAllSitePoint();
+        //     window.location.reload();
+        // }
+
+        function onDelete() {  
+            deleteSitePoint();
+            window.location.reload();
+        }
+
+        function checkboxOnClick(checkbox){
+            if(checkbox){
+                var dataStr =checkbox.value.split('/,/');
+                //更新value值
+                if(checkbox.checked){
+                    checkbox.value = dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/true';
+                }else{
+                    checkbox.value = dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/false';
+                }
+                updateSite(checkbox.value);
+            }
+        }
+
+        //取消选中
+        function onUnchoosed(){
+            unchoosedSite();
+            alert("已取消全部选中");
+            window.location.reload();
+        }
+    </script>
+</body>
+
+</html>

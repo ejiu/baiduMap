@@ -1,0 +1,110 @@
+*{
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -khtml-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+}
+#container{height:95%;width: 100%; position:relative;} 
+.rect{
+    background-color: rgb(231, 164, 82);
+    height: 0.5%;
+    width: 100%;
+}
+.father{
+    background-color: bisque;
+    height: 5%;
+    overflow: hidden;
+}
+.child{
+    border-color:darkgoldenrod; border-right-style:solid; border-width:1px;
+
+    background-color: bisque;
+    float: left;   
+    height: 100%;   
+    width: 16%;   
+    font-size: 4vw;
+    text-align: center;
+    height: 5vh;
+    line-height: 5vh;
+
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+}
+
+.child2{
+    background-color: bisque;
+    float: left;   
+    width: 16%;   
+    font-size: 4vw;
+    text-align: center;
+    height: 5vh;
+    line-height: 5vh;
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+}
+#compass{width:78px; height:80px; position: absolute; display: none; z-index: 1; left: 4%; top: 3%}
+#registerRect{    
+    width: 70%;
+    display: none;
+    position:absolute;
+    top :25%;
+    left:50%;
+    transform:translate(-50%,-30%);
+    font-size: 4vw;
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+    line-height:1.5;
+    font-weight:bold;
+    margin: 4px 4px;
+}
+
+#registerRect input{
+    width: 100%;
+    background:#9bc8ce;
+    color:#ffffff;
+    padding: 4px 8px 4px 8px;
+}
+
+#registerRect button{
+    /* background:#79a1d6; */
+    /* color:#ffffff; */
+    padding: 4px 8px 4px 8px;
+}
+
+.anchorBL{
+    display:none;
+} 
+
+#customConfirm{
+    display: none;
+    position: absolute;
+    left:10vw;
+    top:40vh;
+    width: 80vw;
+    height: 20vh;
+    line-height: 10vh;
+    
+    background-color:rgb(253, 255, 243);
+  }
+#customConfirm label{
+    text-align: center;
+    display: block;
+    font-size: 5vw;
+    font-weight:bold;
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+}
+#customConfirm div{
+    position: absolute;
+    display: inline-block;
+    font-size: 4vw;
+    color:dodgerblue;
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
+}
+#btnBegin{
+    left: 8%;
+}
+#btnExit{
+    left: 45%;
+}
+#btnEnd{
+    right: 8%;
+}
