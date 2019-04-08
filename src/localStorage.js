@@ -45,7 +45,7 @@ var editCenterName = function(preName, newName){
 }
 
 var editSiteName = function(preName, newName){
-    if(notExistInCenterData(newName)){
+    if(notExistInSiteData(newName)){
         var data = localStorage.getItem('Site');
         if(data){
             //replace加入'/,/', 避免preName是其兄弟元素的子集;
