@@ -120,7 +120,7 @@
 	border-radius:3px;
 }
 
-#setSiteRect{
+#siteDiv{
     display: none;
     position: absolute;
     left:10vw;
@@ -133,7 +133,7 @@
     font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
 }
 
-#setSiteRect >label{
+#siteDiv >label{
     text-align: center;
     display: block;
     height: 5vh;
@@ -142,27 +142,27 @@
     font-weight: bold;
 }
 
-#setSiteRect groupDiv {
+#siteDiv groupDiv {
     display: block;
     height: 5vh;
     padding: 5%;
 }
 
-#setSiteRect groupDiv select{
+#siteDiv groupDiv select{
     width: 90%;
 }
 
-#setSiteRect siteDiv {
+#siteDiv siteDiv {
     display: block;
     height: 5vh;
     padding: 5%;
 }
 
-#setSiteRect siteDiv input{
+#siteDiv siteDiv input{
     width: 90%;
 }
 
-#setSiteRect btnGroup btn{
+#siteDiv btnGroup btn{
     float: left;   
     width: 33%;
     height: 5vh;

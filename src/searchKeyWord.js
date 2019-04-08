@@ -124,7 +124,7 @@ var openSiteDiv = function(){
         
         updateSiteGroupSelect();
 
-        document.getElementById("setSiteRect").style.display = "block";
+        document.getElementById("siteDiv").style.display = "block";
     }else{
         alert("未选中任意点");
         return false;

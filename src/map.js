@@ -134,3 +134,68 @@ var getCenterByGps3 = function(data){
         return false;
     }
 }
+
+//-------------以下为Index中siteDiv的控制脚本------------
+//设置小组
+var setSiteGroup = function(data){
+    //localStorage写入数据
+    addSiteGroupData(data);
+    updateSiteGroupSelect();
+}
+
+//更新小组list
+var updateSiteGroupSelect = function(){
+    var group = document.getElementById("groupSelect");
+    group.innerHTML = null;
+    
+    var data = getSiteGroupData();
+    var dataStr = data.split('/&/');
+    if(data){
+        for (var i = 0; i < dataStr.length - 1; i ++){
+            var str = dataStr[i].split('/,/');
+            var op = document.createElement("option");
+            op.value = str[0];
+            op.innerHTML = str[0];
+
+            group.appendChild(op);
+        }
+    }
+}
+
+//设置地点
+var setSitePoint = function(){
+    var name = document.getElementById("siteInput").value;
+    var data = document.getElementById("siteData").value;
+
+    //modified
+    data = name + "/,/" +data;
+    console.log(data);
+
+    var select = document.getElementById("groupSelect");
+    var index = select.selectedIndex;
+    var text = select.options[index].text;
+    data = data + "/,/" + text;
+
+    if(addSiteData(data)){
+        window.location.reload();
+        //重定向
+    }
+}
+
+//TODO
+//打开"添加终点"div
+var openSiteDiv = function(){
+    var point = document.getElementById("btnEnd").value;
+    if(point){
+        var dataStr = point.split('-');
+        document.getElementById("siteInput").value = "默认终点";
+        document.getElementById("siteData").value = dataStr[0] + "/,/" + dataStr[1] + "/,/true";
+        
+        updateSiteGroupSelect();
+
+        document.getElementById("siteDiv").style.display = "block";
+    }else{
+        alert("未选中任意点");
+        return false;
+    }
+}
