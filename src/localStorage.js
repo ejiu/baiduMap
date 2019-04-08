@@ -66,6 +66,17 @@ var getCenterData = function(){
     return localStorage.getItem('Center');
 }
 
+var getSiteGroupData = function(){
+    return localStorage.getItem('SiteGroup');
+}
+
+var setSiteGroup = function(){
+    var data = localStorage.getItem('SiteGroup');
+    if(!data){
+        var str = ""
+        localStorage.setItem('SiteGroup', str);
+    }
+}
 
 var deleteCenterData = function(data){
     console.log("del:"+data);
