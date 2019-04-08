@@ -1,11 +1,28 @@
 var initSiteList = function(){
     var obj = document.getElementById("r-result");
     obj.innerHTML = null;
-
+    
     var siteData = getSiteData();
+
+    var groupList = [];//组集合
     if(siteData){
         var dataStr = siteData.split('/&/');
         for(var site = 0; site < dataStr.length - 1; site++){
+            //遍历数据集
+            //判断元素所属组是否已经创建, 如果有则加入组, 如果无则创建组后加入组;
+            // 如果不存在, 则创建组
+            if(!groupList.contains(dataStr[4])){
+                var groupEle = document.createElement("div");
+                var groupCheckbox = document.createElement("input");
+                var groupLabel = document.createElement("label");
+                groupEle.id = "group"+dataStr[4];
+            }
+
+            //组已创建或已存在
+
+            checkbox.type = "checkbox";
+            checkbox.name = dataStr[4];
+
             var siteStr = dataStr[site].split('/,/');
             //每条数据
             var ele = document.createElement("div");
@@ -28,8 +45,14 @@ var initSiteList = function(){
     
             ele.appendChild(checkbox);
             ele.appendChild(label);
-            obj.append(ele);
+
+            // 添加到组中
+            var group = document.getElementById("group"+dataStr[4]);
+            group.append(ele);
+
         }
+
+        //遍历groupList, 添加组到list中
     }
 }
 

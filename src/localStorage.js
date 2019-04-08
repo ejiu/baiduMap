@@ -84,14 +84,6 @@ var getSiteGroupData = function(){
     return localStorage.getItem('SiteGroup');
 }
 
-var setSiteGroup = function(){
-    var data = localStorage.getItem('SiteGroup');
-    if(!data){
-        var str = "默认目录/,/false/&/";
-        localStorage.setItem('SiteGroup', str);
-    }
-}
-
 var deleteCenterData = function(data){
     console.log("del:"+data);
     if(data){
