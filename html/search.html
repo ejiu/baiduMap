@@ -31,6 +31,34 @@
     </div>
     <div id="r-result"></div>
     <div id="searchMapContainer"></div>
+    <div id="setSiteRect">
+            <label for="">添加终点</label>
+            <groupDiv>
+                <label for="">小组:</label>
+                <select id="groupSelect">
+                </select>
+            </groupDiv>
+            <siteDiv> 
+                <label for="" value="" id="siteData">终点名称:</label>
+                <input type="text" id="siteInput"/>
+            </siteDiv>
+            <btnGroup>
+                <btn id="btnBegin" onclick="openSiteGroupDiv()">添加小组</btn>
+                <btn id="btnExit" onclick="addSiteConfirm()">确定</btn>
+                <btn id="btnEnd" onclick="closeSiteDiv()">退出</btn>
+            </divGroup>
+    </div>
+    <!-- <div id="setSiteGroupRect">
+            <label for="">添加小组</label>
+            <groupDiv> 
+                <label for="">小组名称:</label>
+                <input type="text" />    
+            </groupDiv>
+            <btnGroup>
+                <btn onclick="">确定</btn>
+                <btn onclick="">退出</btn>
+            </divGroup>
+    </div> -->
     <script type="text/javascript" src="../src/localStorage.js"></script>
     <script type="text/javascript" src="../src/utility.js"></script>
     <script type="text/javascript" src="../src/searchKeyWord.js"></script>
@@ -41,21 +69,42 @@
             window.location.href = "../index.html";
         };
         
+        //添加原点
         function onAddCenter(){
             if(setCenterPoint()){
                 window.location.href = "../index.html";
             }
         };
 
+        //添加终点
         function onAddSite(){
-            if(setSitePoint()){
-                window.location.href = "../index.html";
-            }
+            //打开"添加终点"div
+            openSiteDiv();
         };
 
+        //开始搜索
         function onSearch(){
             searchPlace();
         }
+
+        //关闭"添加终点"div
+		function closeSiteDiv(){
+			document.getElementById("setSiteRect").style.display="none";
+        }
+
+        //打开"添加小组"prompt
+		function openSiteGroupDiv(){
+            var name = window.prompt("请输入小组名称:");
+            if(name){
+                setSiteGroup(name);
+            }
+        }
+        
+        //确认添加终点
+        function addSiteConfirm(){
+            setSitePoint();
+        }
+
     </script>
 </body>
 </html>

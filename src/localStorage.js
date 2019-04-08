@@ -26,6 +26,20 @@ var notExistInCenterData = function(name){
     return true;
 }
 
+var notExistInSiteGroupData = function(name){
+    var data = localStorage.getItem('SiteGroup');
+    if(data){
+        var dataStr = data.split('/&/');
+        for(var site = 0; site < dataStr.length; site++){
+            var siteStr = dataStr[site].split('/,/');
+            if(siteStr[0] == name){
+                return false
+            }
+        }
+    }
+    return true;
+}
+
 var editCenterName = function(preName, newName){
     if(preName == "定位原点"){
         alert("定位原点无法改名");
@@ -45,7 +59,7 @@ var editCenterName = function(preName, newName){
 }
 
 var editSiteName = function(preName, newName){
-    if(notExistInCenterData(newName)){
+    if(notExistInSiteData(newName)){
         var data = localStorage.getItem('Site');
         if(data){
             //replace加入'/,/', 避免preName是其兄弟元素的子集;
@@ -73,7 +87,7 @@ var getSiteGroupData = function(){
 var setSiteGroup = function(){
     var data = localStorage.getItem('SiteGroup');
     if(!data){
-        var str = ""
+        var str = "默认目录/,/false/&/";
         localStorage.setItem('SiteGroup', str);
     }
 }
@@ -197,6 +211,23 @@ var addCenterData = function(data){
     }
     else{
         //存在相同地点;
+        alert("已存在相同名称");
+        return false;
+    }
+}
+
+var addSiteGroupData = function(data){
+    var preData = localStorage.getItem('SiteGroup');
+    if(!preData){
+        preData = "";
+    }
+    var dataStr = data.split('/,/');
+
+    if(notExistInSiteGroupData(dataStr[0])){
+        //未存在相同小组名称
+        localStorage.setItem('SiteGroup', preData + data + '/&/');
+        return true;
+    }else{
         alert("已存在相同名称");
         return false;
     }
