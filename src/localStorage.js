@@ -81,7 +81,12 @@ var getCenterData = function(){
 }
 
 var getSiteGroupData = function(){
-    return localStorage.getItem('SiteGroup');
+    var data = localStorage.getItem('SiteGroup');
+    if(!data){
+        localStorage.setItem('SiteGroup', "默认目录/,/false/&/");
+        data = localStorage.getItem('SiteGroup');
+    }
+    return data;
 }
 
 var deleteCenterData = function(data){
@@ -316,6 +321,7 @@ var registerWithImei = function(data){
     }
 }
 
+//更新终点数据
 var updateSiteData = function(data){
     var dataStr = data.split('/,/');
     var siteData = getSiteData();
@@ -323,11 +329,24 @@ var updateSiteData = function(data){
         console.log("ERROR: Can't find "+dataStr[0]+" in SiteData");
     }else{
         if(dataStr[3] == "true"){
-            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"false", dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]);
+            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"false"+"/,/"+dataStr[4], dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]+"/,/"+dataStr[4]);
         }else{
-            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"true", dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]);
+            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"true"+"/,/"+dataStr[4], dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]+"/,/"+dataStr[4]);
         }
         localStorage.setItem('Site', siteData);
+    }
+}
+
+var setSiteDataVisible = function(data, visible){
+    var dataStr = data.split('/,/');
+    var siteData = getSiteData();
+    if(notExistInSiteData(dataStr[0])){
+        console.log("ERROR: Can't find "+dataStr[0]+" in SiteData");
+    }else{
+        if(dataStr[3] != visible){
+            siteData = siteData.replace(data, dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+visible+"/,/"+dataStr[4]);
+            localStorage.setItem('Site', siteData);
+        }
     }
 }
 
@@ -340,5 +359,22 @@ var hideSiteData = function(){
         // data = data.replace('true', 'false');
         console.log(data);
         localStorage.setItem('Site', data);
+    }
+}
+
+//更新组的数据(visible)
+var updateGroupSelfData = function(data){
+    var dataStr = data.split('/,/');
+    var groupData = getSiteGroupData();
+    if(notExistInSiteGroupData(dataStr[0])){
+        console.log("ERROR: Can't find "+dataStr[0]+" in groupData");
+    }else{
+        console.log(groupData);
+        if(dataStr[1] == "true"){
+            groupData = groupData.replace(dataStr[0]+'/,/false', dataStr[0]+'/,/true');
+        }else{
+            groupData = groupData.replace(dataStr[0]+'/,/true', dataStr[0]+'/,/false');
+        }
+        localStorage.setItem('SiteGroup', groupData);
     }
 }

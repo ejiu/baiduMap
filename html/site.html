@@ -7,7 +7,7 @@
         html{height:100%}  
         body{height:100%;margin:0px;padding:0px;background: aliceblue}
     </style>
-    <link rel="stylesheet" type="text/css" href="../css/centerSite.css">
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ghpQpASyMqbSNbWIAPM1tr0b2wXvgrcg"></script>
     <title>管理终点</title>
 </head>
@@ -57,13 +57,23 @@
         function checkboxOnClick(checkbox){
             if(checkbox){
                 var dataStr =checkbox.value.split('/,/');
-                //更新value值
-                if(checkbox.checked){
-                    checkbox.value = dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/true';
-                }else{
-                    checkbox.value = dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/false';
-                }
+                checkbox.value = dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+checkbox.checked+'/,/'+dataStr[4];
+
                 updateSite(checkbox.value);
+                updateGroupByChild(checkbox.parentNode.parentNode);
+            }
+        }
+
+        function groupCheckboxOnClick(checkbox){
+            if(checkbox){
+                var dataStr =checkbox.value.split('/,/');
+                checkbox.value = dataStr[0]+'/,/'+checkbox.checked;
+                //更新组的值
+                updateGroupSelfData(checkbox.value);
+    
+                //更新小组成员的值
+                var childList = checkbox.parentNode.childNodes;
+                updateGroupChild(childList, checkbox.value);
             }
         }
 

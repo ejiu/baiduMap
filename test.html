@@ -17,16 +17,17 @@
     <div id="container"></div>
 </body>
 <script>
- var tMap = new BMap.Map("container");    // 创建Map实例
-    map = tMap;
-    var beginPoint = new BMap.Point(116.404, 39.915);
-    tMap.centerAndZoom(beginPoint, 15);  // 初始化地图,设置原点点坐标和地图级别
-    tMap.addControl(new BMap.MapTypeControl(
-        {
-            mapTypes:[
-                BMAP_NORMAL_MAP,
-                BMAP_HYBRID_MAP
-        ]}
-    ));	  
+var fruits = ["Banana", "Orange", "Apple", "Mango"];
+
+var name = window.prompt("输入");
+if(fruits.indexOf(name) == -1){
+    fruits.push(name);
+}
+
+var a = fruits.indexOf(name); // 2
+
+console.log(a);
+
+
 </script>
 </html>
