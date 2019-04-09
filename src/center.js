@@ -34,7 +34,7 @@ var reName = function(){
         var preName = dataStr[0];
         var name = prompt("请输入新名称", preName);
         if(name){
-            editCenterName(preName, name);
+            editCenterName(preName, name.trim());
         }
     }else{
         alert("未选中任意点");

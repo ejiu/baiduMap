@@ -2,7 +2,8 @@ var notExistInSiteData = function(name){
     var data = localStorage.getItem('Site');
     if(data){
         var dataStr = data.split('/&/');
-        for(var site = 0; site < dataStr.length; site++){
+        for(var site = 0; site < dataStr.length - 1; site++){
+            console.log("name:" + name);
             var siteStr = dataStr[site].split('/,/');
             if(siteStr[0] == name){
                 return false
@@ -16,7 +17,7 @@ var notExistInCenterData = function(name){
     var data = localStorage.getItem('Center');
     if(data){
         var dataStr = data.split('/&/');
-        for(var site = 0; site < dataStr.length; site++){
+        for(var site = 0; site < dataStr.length - 1; site++){
             var siteStr = dataStr[site].split('/,/');
             if(siteStr[0] == name){
                 return false
@@ -30,7 +31,7 @@ var notExistInSiteGroupData = function(name){
     var data = localStorage.getItem('SiteGroup');
     if(data){
         var dataStr = data.split('/&/');
-        for(var site = 0; site < dataStr.length; site++){
+        for(var site = 0; site < dataStr.length - 1; site++){
             var siteStr = dataStr[site].split('/,/');
             if(siteStr[0] == name){
                 return false
@@ -83,7 +84,7 @@ var getCenterData = function(){
 var getSiteGroupData = function(){
     var data = localStorage.getItem('SiteGroup');
     if(!data){
-        localStorage.setItem('SiteGroup', "默认目录/,/false/&/");
+        localStorage.setItem('SiteGroup', "默认目录/,/true/&/");
         data = localStorage.getItem('SiteGroup');
     }
     return data;
@@ -352,13 +353,21 @@ var setSiteDataVisible = function(data, visible){
 
 var hideSiteData = function(){
     var data = getSiteData();
-    console.log(data);
     if(data){
+        //所有true替换为false, 即隐藏所有终点
         var reg = "/"+"true"+"/g";
         var data = data.replace(eval(reg),"false");
-        // data = data.replace('true', 'false');
-        console.log(data);
         localStorage.setItem('Site', data);
+    }
+}
+
+var hideSiteGroupData = function(){
+    var data = getSiteGroupData();
+    if(data){
+        //所有true替换为false, 即隐藏所有终点
+        var reg = "/"+"true"+"/g";
+        var data = data.replace(eval(reg),"false");
+        localStorage.setItem('SiteGroup', data);
     }
 }
 

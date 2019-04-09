@@ -63,7 +63,7 @@ var setCenterPoint = function(){
         var name = prompt("请输入自定义名称", searchInput.value);
         if(name){
             var dataStr = point.split('/,/');
-            point = point.replace(dataStr[0]+'/,/', name+'/,/');
+            point = point.replace(dataStr[0]+'/,/', name.trim()+'/,/');
             return addCenterData(point);
         }
     }else{

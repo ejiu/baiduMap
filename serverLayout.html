@@ -190,7 +190,7 @@
 			var dataStr = data.split("-");
 			var name = prompt("请输入自定义名称", "默认原点");
 			if(name){
-				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
 				if(addCenterData(point)){
 					window.location.reload();
 				}
@@ -202,7 +202,7 @@
 			var dataStr = data.split("-");
 			var name = prompt("请输入自定义名称", "默认终点");
 			if(name){
-				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
 				if(addSiteData(point)){
 					window.location.reload();
 				}

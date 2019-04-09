@@ -31,6 +31,7 @@ var initSiteList = function(){
                     if(siteStr[4] == groupDataStrStr[0]){
                         groupCheckbox.value = groupDataStr[i];
 
+                        console.log(siteStr[4]+"-"+groupDataStrStr[1]);
                         if(groupDataStrStr[1] == "true"){
                             groupCheckbox.checked = true;
                         }else{
@@ -86,7 +87,7 @@ var reName = function(){
         var preName = dataStr[0];
         var name = prompt("请输入新名称", preName);
         if(name){
-            editSiteName(preName, name);
+            editSiteName(preName, name.trim());
         }
     }else{
         alert("未选中任意点");
@@ -134,6 +135,7 @@ var updateSite = function(data){
 
 var unchoosedSite = function(){
     hideSiteData();
+    hideSiteGroupData();
 }
 
 //更新小组节点
