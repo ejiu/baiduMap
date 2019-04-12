@@ -12,15 +12,16 @@ var initSiteList = function(){
             //遍历数据集
             //判断元素所属组是否已经创建, 如果有则加入组, 如果无则创建组后加入组;
             // 如果不存在, 则创建组
-            if(-1 == groupList.indexOf(siteStr[4])){
+            var groupName = siteStr[4].substr(5, siteStr[4].length)
+            if(-1 == groupList.indexOf(groupName)){
                 var groupEle = document.createElement("div");
                 var groupCheckbox = document.createElement("input");
                 var groupLabel = document.createElement("label");
-                groupEle.id = "group"+siteStr[4];
+                groupEle.id = siteStr[4];
                 groupCheckbox.type = "checkbox";
                 groupCheckbox.name = "groupCheckbox";
                 groupCheckbox.setAttribute("onclick", "groupCheckboxOnClick(this)");
-                groupLabel.innerHTML = siteStr[4];
+                groupLabel.innerHTML = groupName;//小组名称需删除前缀group
 
                 //根据siteGroup数据控制checkbox的显示
                 var groupData = getSiteGroupData();
@@ -28,10 +29,9 @@ var initSiteList = function(){
                 for(var i = 0; i < groupDataStr.length - 1; i++){
                     var groupDataStrStr = groupDataStr[i].split('/,/');
                     //当小组名称等于数据集中的组名
-                    if(siteStr[4] == groupDataStrStr[0]){
+                    if(groupName == groupDataStrStr[0]){
                         groupCheckbox.value = groupDataStr[i];
 
-                        console.log(siteStr[4]+"-"+groupDataStrStr[1]);
                         if(groupDataStrStr[1] == "true"){
                             groupCheckbox.checked = true;
                         }else{
@@ -44,7 +44,7 @@ var initSiteList = function(){
                 groupEle.append(groupLabel);
 
                 //加入组
-                groupList.push(siteStr[4]);
+                groupList.push(groupName);
 
                 //添加到html body中
                 obj.append(groupEle);
@@ -74,7 +74,7 @@ var initSiteList = function(){
             ele.appendChild(label);
 
             //找到父组, 并加入组
-            var group = document.getElementById("group"+siteStr[4]);
+            var group = document.getElementById(siteStr[4]);
             group.append(ele);
         }
     }

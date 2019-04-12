@@ -142,7 +142,8 @@ var setSitePoint = function(){
     var select = document.getElementById("groupSelect");
     var index = select.selectedIndex;
     var text = select.options[index].text;
-    data = data + "/,/" + text;
+    //小组名添加前缀group, 存入终点数据
+    data = data + "/,/" + "group" + text;
 
     if(addSiteData(data)){
         window.location.href = "../index.html";

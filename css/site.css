@@ -43,31 +43,31 @@
     top: 1%;
     width:96%;
     height:80%;
-    padding: 2% 2% 0 2%;
-    /* background: #ccc; */
+    padding: 2% 2% 0% 2%;
 }
- #r-result  label{
+
+#r-result label{
+    font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
     font-size:4vw; 
 }
 
 #r-result div div {
     position: relative;
+    width: 95%;
     left: 5%;
 }
 
-/* #r-result div div label{
-    position: absolute;
-    top: 10%;
-    left:10%;
-    font-size:4vw; 
+#r-result div div label{
+    position: relative;
+    left: 1%;
 }
 
-#r-result div div input[type="checkbox"] {
-    position: absolute;
-    top: 4%;
-    width: 5%;
+#r-result input[type="checkbox"] {
+    position: relative;
+    top: 1vw;
+    width: 5vw;
     height: 5vw;
-}  */
+}
 
 .Buttons{
     position: relative;

@@ -33,8 +33,24 @@
 		<label for="">请确认是否设定位置?</label>
 		<div id="btnBegin" onclick="openBeginPrompt()">设定原点</div>
 		<div id="btnExit" onclick="closeLongclickDiv()">退出</div>
-		<div id="btnEnd" onclick="openEndPrompt()">设定终点</div>
+		<div id="btnEnd" onclick="openSiteDiv()">设定终点</div>
 	</div>
+	<div id="siteDiv">
+            <label for="">添加终点</label>
+            <groupDiv>
+                <label for="">小组:</label>
+                <select id="groupSelect"></select>
+            </groupDiv>
+            <siteDiv> 
+                <label for="" value="" id="siteData">终点名称:</label>
+                <input type="text" id="siteInput"/>
+            </siteDiv>
+            <btnGroup>
+                <btn id="btnBegin" onclick="openSiteGroupDiv()">添加小组</btn>
+                <btn id="btnExit" onclick="addSiteConfirm()">确定</btn>
+                <btn id="btnEnd" onclick="closeSiteDiv()">退出</btn>
+            </divGroup>
+    </div>
 	<div class="rect"></div>
 	<div class="father">
 		<div class="child" onclick="onSearchClick()">搜索</div>
@@ -54,10 +70,10 @@
 	<script type="text/javascript" src="./src/map.js"></script>
 	<script type="text/javascript">
 	
-		var imeiAuthority = false;
+	var imeiAuthority = false;
 		
 		//判断是否过期, timeLimit到期返回false, 未到期返回true
-		if(timeLimit()){
+		if(!timeLimit()){
 			//试用期内, 不进行注册判断
 			imeiAuthority = true;
 		}else{
@@ -197,7 +213,7 @@
 			}
 		}
 
-		function openEndPrompt(e){
+		function openEndPrompt(){
 			var data = document.getElementById("btnEnd").value;
 			var dataStr = data.split("-");
 			var name = prompt("请输入自定义名称", "默认终点");
@@ -208,6 +224,25 @@
 				}
 			}
 		}
+
+		//关闭"添加终点"div
+		function closeSiteDiv(){
+			document.getElementById("siteDiv").style.display="none";
+        }
+
+        //打开"添加小组"prompt
+		function openSiteGroupDiv(){
+            var name = window.prompt("请输入小组名称:");
+            if(name){
+                setSiteGroup(name.trim()+"/,/true");
+            }
+        }
+        
+        //确认添加终点
+        function addSiteConfirm(){
+            setSitePoint();
+		}
+		
 	</script>
 </body>
 </html>

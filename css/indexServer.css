@@ -114,9 +114,8 @@
     display: none;
     position: absolute;
     left:10vw;
-    top:30vh;
+    top:32vh;
     width: 80vw;
-    height: 30vh;
     border: 1px ridge rgb(201, 201, 201);
     background-color:rgb(253, 255, 243);
 
@@ -155,8 +154,8 @@
 #siteDiv btnGroup btn{
     float: left;   
     width: 33%;
-    height: 5vh;
-    line-height: 5vh;
+    height: 6vh;
+    line-height: 6vh;
     /* display: inline-block; */
     text-align: center;
     font-size: 4vw;

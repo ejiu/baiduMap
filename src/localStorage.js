@@ -84,7 +84,7 @@ var getCenterData = function(){
 var getSiteGroupData = function(){
     var data = localStorage.getItem('SiteGroup');
     if(!data){
-        localStorage.setItem('SiteGroup', "默认目录/,/true/&/");
+        localStorage.setItem('SiteGroup', "默认组/,/true/&/");
         data = localStorage.getItem('SiteGroup');
     }
     return data;
@@ -124,8 +124,38 @@ var deleteSiteData = function(data){
             if(preData){
                 preData = preData.replace(data+'/&/', "");
                 localStorage.setItem('Site', preData);
+                //终点删除完成, 继续判断终点所属组是否存在成员, 若不存在则删除组;
+                //终点数据中无法找到对应组名(group+真实组名)
+                if(preData.indexOf(dataStr[4]) == -1){
+                    console.log("delete group");
+                    var groupName = dataStr[4].substr(5, dataStr[4].length);
+                    deleteSiteGroupData(groupName);//删除对应小组
+                }
             }
         }
+    }
+}
+
+var deleteSiteGroupData = function(groupName){
+    console.log("删除小组:"+groupName);
+    if("默认组" == groupName){
+        return ;
+    }
+    var groupData = getSiteGroupData();
+    var groupDataStr = groupData.split('/&/');
+    if(!notExistInSiteGroupData(groupName)){
+        for(var i = 0; i < groupDataStr.length - 1; i++){
+            var dataStr = groupDataStr[i].split('/,/');
+            if(dataStr[0] == groupName){
+                var str = groupDataStr[i];
+                var preData = getSiteGroupData();
+                preData = preData.replace(str+"/&/", "");
+                localStorage.setItem("SiteGroup", preData);
+                //删除小组完成
+            }
+        }
+    }else{
+        console.log("Error: 正尝试对不存在的小组进行删除");
     }
 }
 

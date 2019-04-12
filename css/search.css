@@ -124,9 +124,8 @@
     display: none;
     position: absolute;
     left:10vw;
-    top:30vh;
+    top:32vh;
     width: 80vw;
-    height: 30vh;
     border: 1px ridge rgb(201, 201, 201);
     background-color:rgb(253, 255, 243);
 
