@@ -26,8 +26,6 @@ var getMarker = function(map, beginPoint, title, endPoint){
         var secondLabel = new BMap.Label(title + "("+distance +"公里,"+direction+")",{offset:new BMap.Size(0, 45)});
         marker.setLabel(secondLabel);
     });
-
-
     return marker;
 }
 
@@ -98,6 +96,9 @@ var moveCamera = function(map, points){
 }
 
 var calculateAngle = function(beginPoint, endPoint){
+    //计算角度时, 缩放层级设置最大
+    map.setZoom(18);
+
     var offsetX = beginPoint.x - endPoint.x;
     var offsetY = beginPoint.y - endPoint.y;
 
