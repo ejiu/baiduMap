@@ -417,3 +417,16 @@ var updateGroupSelfData = function(data){
         localStorage.setItem('SiteGroup', groupData);
     }
 }
+
+var getBeginName = function(){
+    var data = getCenterData();
+    if(data){
+        var dataStr = data.split('/&/');
+        for(var site = 0; site < dataStr.length; site++){
+            var siteStr = dataStr[site].split('/,/');
+            if(siteStr[3] == 'true'){
+                return siteStr[0];
+            }
+        }
+    }
+}

@@ -72,6 +72,11 @@ var addNewSite = function(map, beginPoint, endTitle, endPoint){
     if((Math.abs(beginPoint.lng - endPoint.lng) < 0.000001 && Math.abs(beginPoint.lat - endPoint.lat) < 0.000001)){
         return ;
     }
+    //如果终点与原点同名,则不绘制该终点,直接返回
+    var beginName = getBeginName();
+    if(beginName == endTitle){
+        return;
+    }
     var mark = getMarker(map, beginPoint, endTitle, endPoint);
     var line = getLine(beginPoint, endPoint);
 
