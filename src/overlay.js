@@ -29,7 +29,6 @@ var getMarker = function(map, beginPoint, title, endPoint){
     return marker;
 }
 
-
 var getRing = function(point, radius){
     var ring = new DIYOverlay(point, radius);
     return ring;
