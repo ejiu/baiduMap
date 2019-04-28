@@ -197,7 +197,7 @@ var addSiteData = function(data){
     var preDataStr = preData.split('/&/');
     var count = preDataStr.length;
     console.log(count);
-    if(count > 100){
+    if(count > 300){
         alert("数量已达上限, 请删除");
         return false;
     }
@@ -226,7 +226,7 @@ var addCenterData = function(data){
     var preDataStr = preData.split('/&/');
     var count = preDataStr.length;
     console.log(count);
-    if(count > 100){
+    if(count > 300){
         alert("数量已达上限, 请删除");
         return false;
     }

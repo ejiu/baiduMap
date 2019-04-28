@@ -73,7 +73,7 @@
 	var imeiAuthority = false;
 		
 		//判断是否过期, timeLimit到期返回false, 未到期返回true
-		if(!timeLimit()){
+		if(timeLimit()){
 			//试用期内, 不进行注册判断
 			imeiAuthority = true;
 		}else{
