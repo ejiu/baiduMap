@@ -3,20 +3,20 @@ function Base64() {
     _keyStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
 
     this.encodeAlter = function (input){
-        input = "3578"+input+"20";
+        input = "35"+input+"7820";
         return this.encode(input);
     }
 
     this.encodeAlterAdmin = function(input){
-        input = "44671"+input+"3";
+        input = "20190412"+input+"9";
         return this.encode(input);
     }
 
     this.decodeAlter = function(input){
         var result = this.decode(input);
         console.log(result);
-        if(result.length == 21){
-            result = result.slice(5, 20);
+        if(result.length == 24){
+            result = result.slice(8, 23);
             return result;
         }else{
             alert("用户码错误");
@@ -28,7 +28,7 @@ function Base64() {
         var result = this.decode(input);
         console.log(result);
         if(result.length == 21){
-            result = result.slice(4, 19);
+            result = result.slice(2, 17);
             return result;
         }else{
             alert("用户码错误");

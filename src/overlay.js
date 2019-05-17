@@ -19,6 +19,8 @@ var getMarker = function(map, beginPoint, title, endPoint){
     })
     marker.setLabel(label);
 
+    console.log("终点:"+endPoint.lng + "/-/" +endPoint.lat);
+
     var distance = (map.getDistance(beginPoint, endPoint)/1000).toFixed(2);
 
     GpsToAddress(endPoint, (value)=>{
@@ -26,11 +28,8 @@ var getMarker = function(map, beginPoint, title, endPoint){
         var secondLabel = new BMap.Label(title + "("+distance +"公里,"+direction+")",{offset:new BMap.Size(0, 45)});
         marker.setLabel(secondLabel);
     });
-
-
     return marker;
 }
-
 
 var getRing = function(point, radius){
     var ring = new DIYOverlay(point, radius);
@@ -72,6 +71,11 @@ var addNewSite = function(map, beginPoint, endTitle, endPoint){
     if((Math.abs(beginPoint.lng - endPoint.lng) < 0.000001 && Math.abs(beginPoint.lat - endPoint.lat) < 0.000001)){
         return ;
     }
+    //如果终点与原点同名,则不绘制该终点,直接返回
+    var beginName = getBeginName();
+    if(beginName == endTitle){
+        return;
+    }
     var mark = getMarker(map, beginPoint, endTitle, endPoint);
     var line = getLine(beginPoint, endPoint);
 
@@ -93,6 +97,9 @@ var moveCamera = function(map, points){
 }
 
 var calculateAngle = function(beginPoint, endPoint){
+    //计算角度时, 缩放层级设置最大
+    map.setZoom(18);
+
     var offsetX = beginPoint.x - endPoint.x;
     var offsetY = beginPoint.y - endPoint.y;
 

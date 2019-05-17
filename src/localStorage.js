@@ -2,7 +2,8 @@ var notExistInSiteData = function(name){
     var data = localStorage.getItem('Site');
     if(data){
         var dataStr = data.split('/&/');
-        for(var site = 0; site < dataStr.length; site++){
+        for(var site = 0; site < dataStr.length - 1; site++){
+            console.log("name:" + name);
             var siteStr = dataStr[site].split('/,/');
             if(siteStr[0] == name){
                 return false
@@ -16,7 +17,21 @@ var notExistInCenterData = function(name){
     var data = localStorage.getItem('Center');
     if(data){
         var dataStr = data.split('/&/');
-        for(var site = 0; site < dataStr.length; site++){
+        for(var site = 0; site < dataStr.length - 1; site++){
+            var siteStr = dataStr[site].split('/,/');
+            if(siteStr[0] == name){
+                return false
+            }
+        }
+    }
+    return true;
+}
+
+var notExistInSiteGroupData = function(name){
+    var data = localStorage.getItem('SiteGroup');
+    if(data){
+        var dataStr = data.split('/&/');
+        for(var site = 0; site < dataStr.length - 1; site++){
             var siteStr = dataStr[site].split('/,/');
             if(siteStr[0] == name){
                 return false
@@ -66,6 +81,14 @@ var getCenterData = function(){
     return localStorage.getItem('Center');
 }
 
+var getSiteGroupData = function(){
+    var data = localStorage.getItem('SiteGroup');
+    if(!data){
+        localStorage.setItem('SiteGroup', "默认组/,/true/&/");
+        data = localStorage.getItem('SiteGroup');
+    }
+    return data;
+}
 
 var deleteCenterData = function(data){
     console.log("del:"+data);
@@ -101,8 +124,38 @@ var deleteSiteData = function(data){
             if(preData){
                 preData = preData.replace(data+'/&/', "");
                 localStorage.setItem('Site', preData);
+                //终点删除完成, 继续判断终点所属组是否存在成员, 若不存在则删除组;
+                //终点数据中无法找到对应组名(group+真实组名)
+                if(preData.indexOf(dataStr[4]) == -1){
+                    console.log("delete group");
+                    var groupName = dataStr[4].substr(5, dataStr[4].length);
+                    deleteSiteGroupData(groupName);//删除对应小组
+                }
             }
         }
+    }
+}
+
+var deleteSiteGroupData = function(groupName){
+    console.log("删除小组:"+groupName);
+    if("默认组" == groupName){
+        return ;
+    }
+    var groupData = getSiteGroupData();
+    var groupDataStr = groupData.split('/&/');
+    if(!notExistInSiteGroupData(groupName)){
+        for(var i = 0; i < groupDataStr.length - 1; i++){
+            var dataStr = groupDataStr[i].split('/,/');
+            if(dataStr[0] == groupName){
+                var str = groupDataStr[i];
+                var preData = getSiteGroupData();
+                preData = preData.replace(str+"/&/", "");
+                localStorage.setItem("SiteGroup", preData);
+                //删除小组完成
+            }
+        }
+    }else{
+        console.log("Error: 正尝试对不存在的小组进行删除");
     }
 }
 
@@ -144,7 +197,7 @@ var addSiteData = function(data){
     var preDataStr = preData.split('/&/');
     var count = preDataStr.length;
     console.log(count);
-    if(count > 100){
+    if(count > 300){
         alert("数量已达上限, 请删除");
         return false;
     }
@@ -173,7 +226,7 @@ var addCenterData = function(data){
     var preDataStr = preData.split('/&/');
     var count = preDataStr.length;
     console.log(count);
-    if(count > 100){
+    if(count > 300){
         alert("数量已达上限, 请删除");
         return false;
     }
@@ -186,6 +239,23 @@ var addCenterData = function(data){
     }
     else{
         //存在相同地点;
+        alert("已存在相同名称");
+        return false;
+    }
+}
+
+var addSiteGroupData = function(data){
+    var preData = localStorage.getItem('SiteGroup');
+    if(!preData){
+        preData = "";
+    }
+    var dataStr = data.split('/,/');
+
+    if(notExistInSiteGroupData(dataStr[0])){
+        //未存在相同小组名称
+        localStorage.setItem('SiteGroup', preData + data + '/&/');
+        return true;
+    }else{
         alert("已存在相同名称");
         return false;
     }
@@ -282,6 +352,7 @@ var registerWithImei = function(data){
     }
 }
 
+//更新终点数据
 var updateSiteData = function(data){
     var dataStr = data.split('/,/');
     var siteData = getSiteData();
@@ -289,22 +360,73 @@ var updateSiteData = function(data){
         console.log("ERROR: Can't find "+dataStr[0]+" in SiteData");
     }else{
         if(dataStr[3] == "true"){
-            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"false", dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]);
+            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"false"+"/,/"+dataStr[4], dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]+"/,/"+dataStr[4]);
         }else{
-            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"true", dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]);
+            siteData = siteData.replace(dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+"true"+"/,/"+dataStr[4], dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+dataStr[3]+"/,/"+dataStr[4]);
         }
         localStorage.setItem('Site', siteData);
     }
 }
 
+var setSiteDataVisible = function(data, visible){
+    var dataStr = data.split('/,/');
+    var siteData = getSiteData();
+    if(notExistInSiteData(dataStr[0])){
+        console.log("ERROR: Can't find "+dataStr[0]+" in SiteData");
+    }else{
+        if(dataStr[3] != visible){
+            siteData = siteData.replace(data, dataStr[0]+'/,/'+dataStr[1]+'/,/'+dataStr[2]+'/,/'+visible+"/,/"+dataStr[4]);
+            localStorage.setItem('Site', siteData);
+        }
+    }
+}
+
 var hideSiteData = function(){
     var data = getSiteData();
-    console.log(data);
     if(data){
+        //所有true替换为false, 即隐藏所有终点
         var reg = "/"+"true"+"/g";
         var data = data.replace(eval(reg),"false");
-        // data = data.replace('true', 'false');
-        console.log(data);
         localStorage.setItem('Site', data);
+    }
+}
+
+var hideSiteGroupData = function(){
+    var data = getSiteGroupData();
+    if(data){
+        //所有true替换为false, 即隐藏所有终点
+        var reg = "/"+"true"+"/g";
+        var data = data.replace(eval(reg),"false");
+        localStorage.setItem('SiteGroup', data);
+    }
+}
+
+//更新组的数据(visible)
+var updateGroupSelfData = function(data){
+    var dataStr = data.split('/,/');
+    var groupData = getSiteGroupData();
+    if(notExistInSiteGroupData(dataStr[0])){
+        console.log("ERROR: Can't find "+dataStr[0]+" in groupData");
+    }else{
+        console.log(groupData);
+        if(dataStr[1] == "true"){
+            groupData = groupData.replace(dataStr[0]+'/,/false', dataStr[0]+'/,/true');
+        }else{
+            groupData = groupData.replace(dataStr[0]+'/,/true', dataStr[0]+'/,/false');
+        }
+        localStorage.setItem('SiteGroup', groupData);
+    }
+}
+
+var getBeginName = function(){
+    var data = getCenterData();
+    if(data){
+        var dataStr = data.split('/&/');
+        for(var site = 0; site < dataStr.length; site++){
+            var siteStr = dataStr[site].split('/,/');
+            if(siteStr[3] == 'true'){
+                return siteStr[0];
+            }
+        }
     }
 }

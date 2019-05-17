@@ -33,8 +33,24 @@
 		<label for="">请确认是否设定位置?</label>
 		<div id="btnBegin" onclick="openBeginPrompt()">设定原点</div>
 		<div id="btnExit" onclick="closeLongclickDiv()">退出</div>
-		<div id="btnEnd" onclick="openEndPrompt()">设定终点</div>
+		<div id="btnEnd" onclick="openSiteDiv()">设定终点</div>
 	</div>
+	<div id="siteDiv">
+            <label for="">添加终点</label>
+            <groupDiv>
+                <label for="">小组:</label>
+                <select id="groupSelect"></select>
+            </groupDiv>
+            <siteDiv> 
+                <label for="" value="" id="siteData">终点名称:</label>
+                <input type="text" id="siteInput"/>
+            </siteDiv>
+            <btnGroup>
+                <btn id="btnBegin" onclick="openSiteGroupDiv()">添加小组</btn>
+                <btn id="btnExit" onclick="addSiteConfirm()">确定</btn>
+                <btn id="btnEnd" onclick="closeSiteDiv()">退出</btn>
+            </divGroup>
+    </div>
 	<div class="rect"></div>
 	<div class="father">
 		<div class="child" onclick="onSearchClick()">搜索</div>
@@ -96,8 +112,8 @@
 			map.addEventListener("longclick", setNewSite);
 
 			function setNewSite(e){
-				document.getElementById("btnBegin").value = e.point.lng + "-" + e.point.lat;
-				document.getElementById("btnEnd").value = e.point.lng + "-" + e.point.lat;
+				document.getElementById("btnBegin").value = e.point.lng + "/-/" + e.point.lat;
+				document.getElementById("btnEnd").value = e.point.lng + "/-/" + e.point.lat;
 				openLongclickDiv();
 			}
 
@@ -187,27 +203,46 @@
 
 		function openBeginPrompt(){			
 			var data = document.getElementById("btnBegin").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认原点");
 			if(name){
-				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
 				if(addCenterData(point)){
 					window.location.reload();
 				}
 			}
 		}
 
-		function openEndPrompt(e){
+		function openEndPrompt(){
 			var data = document.getElementById("btnEnd").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认终点");
 			if(name){
-				var point = name+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
+				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
 				if(addSiteData(point)){
 					window.location.reload();
 				}
 			}
 		}
+
+		//关闭"添加终点"div
+		function closeSiteDiv(){
+			document.getElementById("siteDiv").style.display="none";
+        }
+
+        //打开"添加小组"prompt
+		function openSiteGroupDiv(){
+            var name = window.prompt("请输入小组名称:");
+            if(name){
+                setSiteGroup(name.trim()+"/,/true");
+            }
+        }
+        
+        //确认添加终点
+        function addSiteConfirm(){
+            setSitePoint();
+		}
+		
 	</script>
 </body>
 </html>
