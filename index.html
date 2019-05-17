@@ -7,7 +7,7 @@
 	    html{height:100%}  
 		body{height:100%;margin:0px;padding:0px; background: rgb(247, 222, 190)}  
 	</style>
-	<link rel="stylesheet" type="text/css" href="./css/indexServer.css">
+	<link rel="stylesheet" type="text/css" href="./css/indexClient.css">
 	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=ghpQpASyMqbSNbWIAPM1tr0b2wXvgrcg"></script>
 	<title>Map</title>
 </head>
@@ -57,7 +57,7 @@
 		<div class="child" onclick="onCenterClick()">原点</div>
 		<div class="child" onclick="onSiteClick()">终点</div>
 		<div class="child" onclick="onLocate()">定位</div>
-		<div class="child" onclick="onAbountClick()">关于</div>
+		<div class="child2" onclick="onAbountClick()">关于</div>
 		<div class="child2" onclick="onManagerClick()">管理</div>
 	</div>
 	<script type="text/javascript" src="./src/Base64.js"></script>
@@ -70,26 +70,26 @@
 	<script type="text/javascript" src="./src/map.js"></script>
 	<script type="text/javascript">
 	
-		var imeiAuthority = true;
-
-		// //判断是否过期, timeLimit到期返回false, 未到期返回true
-		// if(!timeLimit()){
-		// 	//试用期内, 不进行注册判断
-		// 	imeiAuthority = true;
-		// }else{
-		// 	//试用期外, 判断注册
-		// 	//判断是否注册; imeiLimit未注册返回false, 已注册返回true;
-		// 	if(imeiLimit()){
-		// 		//已注册
-		// 		imeiAuthority = true;
-		// 	}
-		// 	else{
-		// 		//未注册
-		// 		imeiAuthority = false;
-		// 		//进入注册页面;
-		// 		showRegister();
-		// 	}
-		// }
+	var imeiAuthority = false;
+		
+		//判断是否过期, timeLimit到期返回false, 未到期返回true
+		if(timeLimit()){
+			//试用期内, 不进行注册判断
+			imeiAuthority = true;
+		}else{
+			//试用期外, 判断注册
+			//判断是否注册; imeiLimit未注册返回false, 已注册返回true;
+			if(imeiLimit()){
+				//已注册
+				imeiAuthority = true;
+			}
+			else{
+				//未注册
+				imeiAuthority = false;
+				//进入注册页面;
+				showRegister();
+			}
+		}
 
 		if(imeiAuthority){
 			showCompass();
@@ -112,8 +112,8 @@
 			map.addEventListener("longclick", setNewSite);
 
 			function setNewSite(e){
-				document.getElementById("btnBegin").value = e.point.lng + "-" + e.point.lat;
-				document.getElementById("btnEnd").value = e.point.lng + "-" + e.point.lat;
+				document.getElementById("btnBegin").value = e.point.lng + "/-/" + e.point.lat;
+				document.getElementById("btnEnd").value = e.point.lng + "/-/" + e.point.lat;
 				openLongclickDiv();
 			}
 
@@ -203,7 +203,7 @@
 
 		function openBeginPrompt(){			
 			var data = document.getElementById("btnBegin").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认原点");
 			if(name){
 				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
@@ -215,7 +215,7 @@
 
 		function openEndPrompt(){
 			var data = document.getElementById("btnEnd").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认终点");
 			if(name){
 				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";

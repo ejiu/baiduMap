@@ -121,7 +121,7 @@ var getCenterByGps2 = function(){
 //baiduMap android sdk获取GPS, 传值到JS中;
 var getCenterByGps3 = function(data){
     if(data){
-        var dataStr = data.split('-');
+        var dataStr = data.split('/-/');
         var regPos = /^\d+(\.\d+)?$/; //非负浮点数
         var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
 
@@ -188,10 +188,10 @@ var setSitePoint = function(){
 var openSiteDiv = function(){
     var point = document.getElementById("btnEnd").value;
     if(point){
-        var dataStr = point.split('-');
+        var dataStr = point.split('/-/');
         document.getElementById("siteInput").value = "默认终点";
         document.getElementById("siteData").value = dataStr[0] + "/,/" + dataStr[1] + "/,/true";
-        
+        console.log("当前数值"+point);
         updateSiteGroupSelect();
 
         document.getElementById("siteDiv").style.display = "block";

@@ -112,8 +112,8 @@
 			map.addEventListener("longclick", setNewSite);
 
 			function setNewSite(e){
-				document.getElementById("btnBegin").value = e.point.lng + "-" + e.point.lat;
-				document.getElementById("btnEnd").value = e.point.lng + "-" + e.point.lat;
+				document.getElementById("btnBegin").value = e.point.lng + "/-/" + e.point.lat;
+				document.getElementById("btnEnd").value = e.point.lng + "/-/" + e.point.lat;
 				openLongclickDiv();
 			}
 
@@ -203,7 +203,7 @@
 
 		function openBeginPrompt(){			
 			var data = document.getElementById("btnBegin").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认原点");
 			if(name){
 				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";
@@ -215,7 +215,7 @@
 
 		function openEndPrompt(){
 			var data = document.getElementById("btnEnd").value;
-			var dataStr = data.split("-");
+			var dataStr = data.split("/-/");
 			var name = prompt("请输入自定义名称", "默认终点");
 			if(name){
 				var point = name.trim()+ "/,/"+dataStr[0]+"/,/"+dataStr[1]+"/,/"+"true";

@@ -19,6 +19,8 @@ var getMarker = function(map, beginPoint, title, endPoint){
     })
     marker.setLabel(label);
 
+    console.log("终点:"+endPoint.lng + "/-/" +endPoint.lat);
+
     var distance = (map.getDistance(beginPoint, endPoint)/1000).toFixed(2);
 
     GpsToAddress(endPoint, (value)=>{
