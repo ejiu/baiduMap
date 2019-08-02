@@ -16,6 +16,10 @@ var initCenterList = function(){
             radio.type = "radio";
             radio.name = "addr";
             radio.value = siteStr[0]+'/,/'+siteStr[1]+'/,/'+siteStr[2]+'/,/'+siteStr[3];
+
+            if(siteStr[3] == "true"){
+                radio.checked = true;
+            }
     
             var str = siteStr[0];
             label.innerHTML = str;

@@ -106,9 +106,32 @@ var deleteCenterData = function(data){
             if(preData){
                 preData = preData.replace(data+'/&/', "");
                 localStorage.setItem('Center', preData);
+                //如果删除点为true, 则设定位原点为true
+                if(dataStr[3] == "true"){
+                    setDefaultBeginPoint();
+                }
+
                 alert("删除成功");
             }
         }
+    }
+}
+
+var setDefaultBeginPoint = function(){
+    var centerData = localStorage.getItem('Center');
+    if(centerData){
+        var centerDataStr = centerData.split('/&/');
+        for(var i in centerDataStr){
+            var tmpStr = centerDataStr[i].split('/,/');
+            if(tmpStr[0] == "定位原点"){
+                var preStr = tmpStr[0]+'/,/'+tmpStr[1]+'/,/'+tmpStr[2]+'/,/'+tmpStr[3];
+                var newStr = tmpStr[0]+'/,/'+tmpStr[1]+'/,/'+tmpStr[2]+'/,/'+"true";
+                centerData = centerData.replace(preStr, newStr);
+                localStorage.setItem('Center', centerData);
+            }
+        }
+    }else{
+        alert("数据丢失, 请联系服务商");
     }
 }
 
