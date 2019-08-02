@@ -100,14 +100,17 @@
     color:dodgerblue;
     font-family: 微软雅黑,宋体,Arial,Helvetica,Verdana,sans-serif;
 }
-#btnBegin{
-    left: 8%;
+#btnTempBegin{
+    left: 5%;
 }
-#btnExit{
-    left: 45%;
+#btnBegin{
+    left: 32%;
 }
 #btnEnd{
-    right: 8%;
+    right: 22%;
+}
+#btnExit{
+    right: 5%;
 }
 
 #siteDiv{

@@ -31,9 +31,10 @@
 	</div>
 	<div id="customConfirm">
 		<label for="">请确认是否设定位置?</label>
-		<div id="btnBegin" onclick="openBeginPrompt()">设定原点</div>
-		<div id="btnExit" onclick="closeLongclickDiv()">退出</div>
+		<div id="btnTempBegin" onclick="openTempBegin()">设定原点</div>
+		<div id="btnBegin" onclick="openBeginPrompt()">保存原点</div>
 		<div id="btnEnd" onclick="openSiteDiv()">设定终点</div>
+		<div id="btnExit" onclick="closeLongclickDiv()">退出</div>
 	</div>
 	<div id="siteDiv">
             <label for="">添加终点</label>
@@ -211,6 +212,14 @@
 					window.location.reload();
 				}
 			}
+		}
+
+		function openTempBegin(){			
+			var data = document.getElementById("btnBegin").value;
+			var dataStr = data.split("/-/");
+			var newBeginPoint = new BMap.Point(dataStr[0], dataStr[1]);
+			updateDefaultBeingPoint(newBeginPoint);
+			window.location.reload();
 		}
 
 		function openEndPrompt(){

@@ -108,7 +108,7 @@ var deleteCenterData = function(data){
                 localStorage.setItem('Center', preData);
                 //如果删除点为true, 则设定位原点为true
                 if(dataStr[3] == "true"){
-                    setDefaultBeginPoint();
+                    setDefaultBeginPointDisplay();
                 }
 
                 alert("删除成功");
@@ -117,7 +117,7 @@ var deleteCenterData = function(data){
     }
 }
 
-var setDefaultBeginPoint = function(){
+var setDefaultBeginPointDisplay = function(){
     var centerData = localStorage.getItem('Center');
     if(centerData){
         var centerDataStr = centerData.split('/&/');
@@ -197,6 +197,13 @@ var updateDefaultBeingPoint = function(point){
     centerData = centerData.replace('true', 'false');
 
     if(point){
+        // var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+        // var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+
+        // if((!regPos.test(point.lng) && !regNeg.test(point.lng)) || (!regPos.test(point.lat) && !regNeg.test(point.lat))) {
+        //     return false;
+        // }
+
         var centerDataStr = centerData.split('/&/');
         for(var i in centerDataStr){
             var tmpStr = centerDataStr[i].split('/,/');
