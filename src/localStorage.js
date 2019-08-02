@@ -298,7 +298,7 @@ var setCenterData = function(point){
 
 //试用期
 //首次安装时,记录时间点a;
-//每次运行时判断最新时间和时间点a的差距, 大于五天即视为试用过期;
+//每次运行时判断最新时间和时间点a的差距, 大于180天即视为试用过期;
 var timeLimit = function(){
     var data = localStorage.getItem('timeLimit');
     if(!data){
@@ -307,8 +307,7 @@ var timeLimit = function(){
     }else{
         var beginTime = data;
         var thisTime = Date.parse(new Date());
-        // if(Math.abs(thisTime - beginTime) > 15000){//test
-        if(Math.abs(thisTime - beginTime) > 432000000){
+        if(Math.abs(thisTime - beginTime) > 15552000000){
             // alert("试用已到期,请联系服务商");
             return false;
         }

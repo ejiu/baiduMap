@@ -44,6 +44,7 @@ var reName = function(){
 var deleteCenterPoint = function(){
     var point = getCheckedPoint();
     if(point){
+        console.log("delete: "+point);
         deleteCenterData(point);
     }else{
         alert("未选中任意点");
